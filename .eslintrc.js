@@ -8,14 +8,15 @@ module.exports = {
   },
   extends: [
     'plugin:vue/vue3-essential',
-    'eslint:recommended',
-    'plugin:prettier/recommended'
+    'eslint:recommended'
+    // 'plugin:prettier/recommended'
   ],
   parserOptions: {
     parser: 'babel-eslint'
   },
   rules: {
-    'prettier/prettier': 'error'
-  },
-  plugins: ['prettier']
+    // 'prettier/prettier': 'error'
+    'no-unused-vars': process.env.NODE_ENV === 'production' ? 'error' : 'off'
+  }
+  // plugins: ['prettier']
 }

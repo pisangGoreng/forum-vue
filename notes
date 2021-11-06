@@ -1,2 +1,14 @@
-setup eslint
+- setup eslint
   - https://mattgosden.medium.com/quick-vscode-setup-for-vue-js-with-prettier-and-eslint-4b97fc71c587
+
+- v-for NOT :v-for
+
+- navigate to other page, ada 2 cara
+  <router-link :to="`/thread/${thread.id}`">{{ thread.title }}</router-link>
+
+  name => nama router component nya
+  <router-link :to="{ name: 'ThreadShow', params: { id: thread.id } }">{{ thread.title }}</router-link>
+
+- if else element
+  <div v-if="condition"> </div>
+  <div v-else> </div>
