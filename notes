@@ -12,3 +12,15 @@
 - if else element
   <div v-if="condition"> </div>
   <div v-else> </div>
+
+- manipulasi text input
+  <textarea :value="newPostText" @input="newPostText = $event.target.value"/>
+  <textarea v-model="newPostText" />
+
+- passing data dari children -> parent, via event
+  di children
+    this.$emit('save', { post })
+  di parent
+    $save="method_name"
+
+- reusable component bisa di daftarkan sebagai global component
