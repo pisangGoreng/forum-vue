@@ -1,5 +1,5 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
+  <the-navbar />
   <div class="container">
     <!-- router-view will rendered active page -->
     <router-view />
@@ -8,9 +8,12 @@
 
 <script>
 import PageHome from './pages/Home.vue'
-
+import TheNavbar from './components/TheNavbar'
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    TheNavbar
+  }
 }
 </script>
 

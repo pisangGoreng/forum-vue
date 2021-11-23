@@ -24,3 +24,7 @@
     $save="method_name"
 
 - reusable component bisa di daftarkan sebagai global component
+
+- akses state vue dengan this.$state
+
+- jika butuh akses state, bisa pakai getters

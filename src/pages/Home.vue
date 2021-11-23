@@ -1,20 +1,27 @@
 <template>
-  <h1>Welcome to the forum</h1>
+  <h1 class="push-top">Welcome to the forum</h1>
   <!-- passing props -->
-  <forum-list :forums="forums" />
+  <CategoryList :categories="categories" />
 </template>
 
 <script>
 import sourceData from '../data.json'
 import ForumList from '../components/ForumList.vue'
+import CategoryList from '../components/CategoryList.vue'
 
 export default {
   components: {
-    ForumList
+    CategoryList
   },
-  data() {
-    return {
-      forums: sourceData.forums
+  // data() {
+  //   return {
+  //     categories: this.$store.state.categories
+  //   }
+  // },
+  computed: {
+    categories() {
+      console.log(this)
+      return this.$store.state.categories
     }
   }
 }

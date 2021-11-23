@@ -3,9 +3,11 @@ import router from './router'
 
 import App from './App.vue'
 import AppDate from './components/AppDate.vue'
+import store from './store'
 
 const forumApp = createApp(App)
 forumApp.use(router)
+forumApp.use(store) // to connecting vuex
 
 // ! auto registers components di dalam folder component jadi global component
 // ! pakai prefix App... .vue

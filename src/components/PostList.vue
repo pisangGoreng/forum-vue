@@ -29,8 +29,6 @@
 </template>
 
 <script>
-import sourceData from '../data.json'
-
 export default {
   props: {
     posts: {
@@ -39,8 +37,13 @@ export default {
     }
   },
   data() {
-    return {
-      users: sourceData.users
+    // return {
+    //   users: this.$store.state.users
+    // }
+  },
+  computed: {
+    users() {
+      return this.$store.state.users
     }
   },
   methods: {
