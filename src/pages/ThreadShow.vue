@@ -1,40 +1,46 @@
 <template>
-  <div v-if="thread" class="col-large push-top">
-    <h1>{{ thread.title }}</h1>
+  <div class="col-large push-top">
+    <h1>
+      {{ thread.title }}
+      <router-link
+        :to="{ name: 'ThreadEdit', id: this.id }"
+        class="btn-green btn-small"
+        tag="button"
+      >
+        Edit Thread
+      </router-link>
+    </h1>
+    <p>
+      By <a href="#" class="link-unstyled">{{ thread.author?.name }}</a
+      >, <AppDate :timestamp="thread.publishedAt" />.
+      <span
+        style="float: right; margin-top: 2px"
+        class="hide-mobile text-faded text-small"
+        >{{ thread.repliesCount }} replies by
+        {{ thread.contributorsCount }} contributors</span
+      >
+    </p>
 
     <post-list :posts="threadPosts" />
 
     <post-editor @save="addPost" />
   </div>
-
-  <div v-else class="col-full text-center">
-    <h1>This thread was not found</h1>
-    <router-link :to="{ name: 'Home' }">Read some cool threads</router-link>
-  </div>
 </template>
 
 <script>
-import PostList from '../components/PostList.vue'
-import PostEditor from '../components/PostEditor.vue'
-
+import PostList from '@/components/PostList'
+import PostEditor from '@/components/PostEditor'
+import firebase from 'firebase'
 export default {
   name: 'ThreadShow',
   components: {
-    PostList, // add here to use children components
+    PostList,
     PostEditor
   },
   props: {
     id: {
-      // get ID from this.$route.params.id
       required: true,
       type: String
-    }
-  },
-  data() {
-    return {
-      // threads: this.$store.state.threads,
-      // posts: this.$store.state.posts,
-      newPostText: ''
     }
   },
   computed: {
@@ -45,7 +51,7 @@ export default {
       return this.$store.state.posts
     },
     thread() {
-      return this.threads.find((thread) => thread.id === this.id) // also available under this.$route.params.id
+      return this.$store.getters.thread(this.id)
     },
     threadPosts() {
       return this.posts.filter((post) => post.threadId === this.id)
@@ -57,13 +63,50 @@ export default {
         ...eventData.post,
         threadId: this.id
       }
-
-      this.$store.dispatch('createPost', post) // execute vuex actions
-
-      this.newPostText = ''
+      this.$store.dispatch('createPost', post)
     }
+  },
+  created() {
+    // fetch the thread
+    firebase
+      .firestore()
+      .collection('threads')
+      .doc(this.id)
+      .onSnapshot((doc) => {
+        const thread = { ...doc.data(), id: doc.id }
+        this.$store.commit('setThread', { thread })
+
+        // fetch the user
+        firebase
+          .firestore()
+          .collection('users')
+          .doc(thread.userId)
+          .onSnapshot((doc) => {
+            const user = { ...doc.data(), id: doc.id }
+            this.$store.commit('setUser', { user })
+          })
+
+        // fetch the posts
+        thread.posts.forEach((postId) => {
+          firebase
+            .firestore()
+            .collection('posts')
+            .doc(postId)
+            .onSnapshot((doc) => {
+              const post = { ...doc.data(), id: doc.id }
+              this.$store.commit('setPost', { post })
+              // fetch the user for each post
+              firebase
+                .firestore()
+                .collection('users')
+                .doc(post.userId)
+                .onSnapshot((doc) => {
+                  const user = { ...doc.data(), id: doc.id }
+                  this.$store.commit('setUser', { user })
+                })
+            })
+        })
+      })
   }
 }
 </script>
-
-<style></style>

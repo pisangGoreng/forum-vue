@@ -28,3 +28,62 @@
 - akses state vue dengan this.$state
 
 - jika butuh akses state, bisa pakai getters
+
+- bisa passing methods dari parent ke children dengan event
+  di parent: @save
+  di children: $emit('save') || this.$emit('save')
+
+- VUE LIFECYCLE
+    CREATE -> MOUNT
+
+    - beforeCreate
+    - created
+      - cocok untuk melakukan proses fetch API
+    - beforeMount
+    - mounted
+    - beforeUnmount
+    - unmount
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+GCP INDO => asia-southeast2
+resource => https://betterprogramming.pub/deploy-a-node-api-to-cloud-run-f93fea4ff2e6
+build images based on Dockerfile
+ - docker build -f Dockerfile -t forum-vue .
+
+run image in local container, for test case
+  - docker run -p 8080:8080 forum-vue
+
+push docker container to google cloud run
+  - gcloud builds submit --tag gcr.io/serverless-333003/forum-vue
+
+- deploy pushed container to cloud run
+  gcloud run deploy forum-vue \
+    --image gcr.io/serverless-333003/forum-vue \
+    --platform managed \
+    --region asia-southeast2 \
+    --allow-unauthenticated
+
+
+pertanyaan?
+  - cara setup docker untuk berbagai env?

@@ -5,8 +5,6 @@
 </template>
 
 <script>
-import sourceData from '../data.json'
-import ForumList from '../components/ForumList.vue'
 import CategoryList from '../components/CategoryList.vue'
 
 export default {
@@ -20,7 +18,6 @@ export default {
   // },
   computed: {
     categories() {
-      console.log(this)
       return this.$store.state.categories
     }
   }

@@ -18,7 +18,7 @@
         </div>
 
         <div class="activity">
-          <p class="replies-count">{{ thread.posts.length }} replies</p>
+          <p class="replies-count">{{ thread.repliesCount }} replies</p>
 
           <img
             :src="userById(thread.userId).avatar"
@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import { findById } from '@/helpers'
 export default {
   props: {
     threads: {
@@ -66,10 +67,10 @@ export default {
     postById(postId) {
       // ! use old function style to access this.data
       console.log(this)
-      return this.posts.find((p) => p.id === postId)
+      return findById(this.posts, postId)
     },
     userById(userId) {
-      return this.users.find((p) => p.id === userId)
+      return findById(this.users, userId)
     }
   }
 }

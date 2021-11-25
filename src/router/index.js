@@ -1,7 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+import { findById } from '@/helpers'
+
 import Home from '../pages/Home.vue'
 import ThreadShow from '../pages/ThreadShow.vue'
+import ThreadCreate from '../pages/ThreadCreate.vue'
+import ThreadEdit from '../pages/ThreadEdit.vue'
 import NotFound from '../pages/NotFound.vue'
 import Forum from '../pages/Forum.vue'
 import sourceData from '../data.json'
@@ -43,26 +47,36 @@ const routes = [
     path: '/thread/:id',
     name: 'ThreadShow', // name for navigate
     props: true, // ! make the component can receive props. PROPS not PROP
-    component: ThreadShow,
-    beforeEnter(to, from, next) {
-      // ! route guards example
-      // check if the thread exist
-      const threadExist = sourceData.threads.find(
-        (thread) => thread.id === to.params.id
-      )
-      // if exist, continue
-      if (threadExist) {
-        next()
-      } else {
-        // if doest exist, navigate to not found
-        next({
-          name: 'NotFound',
-          params: { pathMatch: to.path.subString(1).split('/') },
-          query: to.query,
-          hash: to.hash
-        })
-      }
-    }
+    component: ThreadShow
+    // beforeEnter(to, from, next) { // ! disable for a while when connect to firebase
+    //   // ! route guards example
+    //   // check if the thread exist
+    //   const threadExists = findById(sourceData.threads, to.params.id)
+    //   // if exist, continue
+    //   if (threadExists) {
+    //     next()
+    //   } else {
+    //     // if doest exist, navigate to not found
+    //     next({
+    //       name: 'NotFound',
+    //       params: { pathMatch: to.path.subString(1).split('/') },
+    //       query: to.query,
+    //       hash: to.hash
+    //     })
+    //   }
+    // }
+  },
+  {
+    path: '/forum/:forumId/thread/create',
+    name: 'ThreadCreate',
+    component: ThreadCreate,
+    props: true
+  },
+  {
+    path: '/thread/:id/edit',
+    name: 'ThreadEdit',
+    component: ThreadEdit,
+    props: true
   },
   {
     path: '/:pathMatch(.*)*',

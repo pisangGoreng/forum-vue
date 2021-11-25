@@ -7,7 +7,6 @@
 </template>
 
 <script>
-import PageHome from './pages/Home.vue'
 import TheNavbar from './components/TheNavbar'
 export default {
   name: 'App',

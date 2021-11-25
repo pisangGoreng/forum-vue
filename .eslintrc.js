@@ -1,6 +1,3 @@
-// ! move the eslintConfig from package.json to here
-// ! to use conditional logic
-
 module.exports = {
   root: true,
   env: {
@@ -15,7 +12,6 @@ module.exports = {
     parser: 'babel-eslint'
   },
   rules: {
-    // 'prettier/prettier': 'error'
     'no-unused-vars': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   }
   // plugins: ['prettier']

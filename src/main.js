@@ -1,9 +1,15 @@
-import { createApp } from 'vue'
-import router from './router'
+const dotenv = require('dotenv')
+console.log('oke', process.env)
 
+import { createApp } from 'vue'
+import firebase from 'firebase'
+import { firebaseConfig } from './config/firebase'
+
+import router from './router'
 import App from './App.vue'
-import AppDate from './components/AppDate.vue'
 import store from './store'
+
+firebase.initializeApp(firebaseConfig)
 
 const forumApp = createApp(App)
 forumApp.use(router)

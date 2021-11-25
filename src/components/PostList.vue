@@ -1,45 +1,48 @@
 <template>
   <div class="post-list">
     <div class="post" v-for="post in posts" :key="post.id">
-      <div class="user-info">
+      <div v-if="userById(post.userId)" class="user-info">
         <a href="#" class="user-name">{{ userById(post.userId).name }}</a>
 
-        <a href="#"
-          ><img
+        <a href="#">
+          <img
             class="avatar-large"
             :src="userById(post.userId).avatar"
             alt=""
           />
         </a>
 
-        <p class="dekstop-only text-small">107 posts</p>
+        <p class="desktop-only text-small">
+          {{ userById(post.userId).postsCount }} posts
+        </p>
+        <p class="desktop-only text-small">
+          {{ userById(post.userId).threadsCount }} threads
+        </p>
       </div>
 
       <div class="post-content">
         <div>
-          <p>{{ post.text }}</p>
+          <p>
+            {{ post.text }}
+          </p>
         </div>
       </div>
 
-      <div class="post-date text-fad">
-        <app-date :timestamp="post.publishedAt" />
+      <div class="post-date text-faded">
+        <AppDate :timestamp="post.publishedAt" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { findById } from '@/helpers'
 export default {
   props: {
     posts: {
       required: true,
       type: Array
     }
-  },
-  data() {
-    // return {
-    //   users: this.$store.state.users
-    // }
   },
   computed: {
     users() {
@@ -48,7 +51,7 @@ export default {
   },
   methods: {
     userById(userId) {
-      return this.users.find((p) => p.id === userId)
+      return this.$store.getters.user(userId)
     }
   }
 }
